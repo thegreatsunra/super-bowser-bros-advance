@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Butano",
+            "includePath": [
+                "../butano/butano/include",
+                "../butano/common/include",
+                "${workspaceFolder}/**"
+            ],
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "defines": [],
+            "compilerPath": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc",
+            "intelliSenseMode": "linux-gcc-arm"
+        }
+    ],
+    "version": 4
+}

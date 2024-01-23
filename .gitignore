@@ -80,7 +80,7 @@ $RECYCLE.BIN/
 ### Butano ###
 # from https://github.com/GValiente/butano/blob/master/.gitignore
 .qtc_clangd/
-.vscode/
+# .vscode/
 *.cflags
 *.config
 *.creator
