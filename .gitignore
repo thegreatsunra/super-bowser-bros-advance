@@ -77,7 +77,8 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows
 
-# from Butano
+### Butano ###
+# from https://github.com/GValiente/butano/blob/master/.gitignore
 .qtc_clangd/
 .vscode/
 *.cflags
@@ -95,4 +96,4 @@ $RECYCLE.BIN/
 *.sav
 *.user
 build/
-# end Butano
+# end of Butano
