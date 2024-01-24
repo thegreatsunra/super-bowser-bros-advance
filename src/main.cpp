@@ -20,6 +20,22 @@ int main()
 
     while(true)
     {
+        if(bn::keypad::left_held())
+        {
+            bowser.set_x(bowser.x() - 1);
+        }
+        else if(bn::keypad::right_held())
+        {
+            bowser.set_x(bowser.x() + 1);
+        }
+        if(bn::keypad::up_held())
+        {
+            bowser.set_y(bowser.y() - 1);
+        }
+        else if(bn::keypad::down_held())
+        {
+            bowser.set_y(bowser.y() + 1);
+        }
         bn::core::update();
     }
 }
