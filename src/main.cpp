@@ -1,4 +1,5 @@
 #include "bn_core.h"
+#include "bn_keypad.h"
 #include "bn_regular_bg_ptr.h"
 #include "bn_sprite_ptr.h"
 
