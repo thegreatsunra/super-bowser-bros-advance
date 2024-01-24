@@ -1,4 +1,5 @@
 #include "bn_core.h"
+#include "bn_regular_bg_items_background.h"
 
 int main()
 {
