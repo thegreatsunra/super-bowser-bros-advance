@@ -1,9 +1,10 @@
 #include "bn_core.h"
-#include "bn_regular_bg_items_background.h"
 #include "bn_regular_bg_ptr.h"
-#include "bn_sprite_items_mario.h"
-#include "bn_sprite_items_bowser.h"
 #include "bn_sprite_ptr.h"
+
+#include "bn_regular_bg_items_background.h"
+#include "bn_sprite_items_bowser.h"
+#include "bn_sprite_items_mario.h"
 
 int main()
 {
