@@ -4,7 +4,7 @@
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_actions.h"
 
-#include "bn_regular_bg_items_background.h"
+#include "bn_regular_bg_items_bg_tilemap.h"
 #include "bn_sprite_items_bowser.h"
 #include "bn_sprite_items_mario.h"
 #include "bn_music_items.h"
@@ -17,7 +17,7 @@ namespace
         bn::music_items::drozerix_leisurely_voice.play();
 
         // (520, -48) are magic numbers to align the 1280x256 .bmp image with the lower-left corner of the display
-        bn::regular_bg_ptr regular_bg = bn::regular_bg_items::background.create_bg(520, -48);
+        bn::regular_bg_ptr regular_bg = bn::regular_bg_items::bg_tilemap.create_bg(520, -48);
         bn::fixed move_amplitude = 30;
 
         // (0, 40) is a magic number to make the sprite appear on the ground
