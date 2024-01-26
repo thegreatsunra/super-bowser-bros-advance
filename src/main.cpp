@@ -32,10 +32,12 @@ namespace
             if(bn::keypad::left_held())
             {
                 bowser.set_x(bowser.x() - 1);
+                bowser.set_horizontal_flip(true);
             }
             else if(bn::keypad::right_held())
             {
                 bowser.set_x(bowser.x() + 1);
+                bowser.set_horizontal_flip(false);
             }
             if(bn::keypad::up_held())
             {
