@@ -1,3 +1,4 @@
+#include "bn_camera_actions.h"
 #include "bn_core.h"
 #include "bn_keypad.h"
 #include "bn_regular_bg_ptr.h"
@@ -26,25 +27,34 @@ namespace
         bn::sprite_ptr bowser = bn::sprite_items::bowser.create_sprite(32, 32);
 
         bn::sprite_move_loop_action action(mario, 120, move_amplitude, move_amplitude);
+
+        bn::camera_ptr camera = bn::camera_ptr::create(0, 0);
+        regular_bg.set_camera(camera);
+        bowser.set_camera(camera);
+
         while(true)
             {
             action.update();
             if(bn::keypad::left_held())
             {
+                camera.set_x(camera.x() - 1);
                 bowser.set_x(bowser.x() - 1);
                 bowser.set_horizontal_flip(true);
             }
             else if(bn::keypad::right_held())
             {
+                camera.set_x(camera.x() + 1);
                 bowser.set_x(bowser.x() + 1);
                 bowser.set_horizontal_flip(false);
             }
             if(bn::keypad::up_held())
             {
+                camera.set_y(camera.y() - 1);
                 bowser.set_y(bowser.y() - 1);
             }
             else if(bn::keypad::down_held())
             {
+                camera.set_y(camera.y() + 1);
                 bowser.set_y(bowser.y() + 1);
             }
             bn::core::update();
