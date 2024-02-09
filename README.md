@@ -1,5 +1,15 @@
 # super-bowser-bros-advance
 
+## Notes
+
+Lint with Artistic Style
+
+```shell
+astyle --recursive --project -n "*.cpp,*.h"
+```
+
+---
+
 ## Getting Started
 
 This project structure assumes the [Butano](https://github.com/GValiente/butano) GitHub repository exists in a sibling folder.
