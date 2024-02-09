@@ -19,11 +19,11 @@ Path::Path(Player &player)
 Scene Path::execute(bn::fixed_point spawn_location) {
     bn::camera_ptr camera = bn::camera_ptr::create(spawn_location.x(), spawn_location.y());
     bn::affine_bg_ptr map = bn::affine_bg_items::path.create_bg(512, 512);
-    map.set_priority(1);
+    map.set_priority(0);
     // we'll need this eventually for player:set_position()
     // sbb::Level level = sbb::Level(map);
     map.set_camera(camera);
-    _player->spawn(spawn_location, camera, map);
+    // _player->spawn(spawn_location, camera, map);
 
     while (true) {
         // _player->update_position(map, level);
