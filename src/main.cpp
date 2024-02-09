@@ -10,64 +10,56 @@
 #include "bn_sprite_items_mario.h"
 #include "bn_music_items.h"
 
-namespace
-{
-    void default_scene()
-    {
-        // play music
-        bn::music_items::drozerix_leisurely_voice.play();
+namespace {
+void default_scene() {
+    // play music
+    bn::music_items::drozerix_leisurely_voice.play();
 
-        // (520, -48) are magic numbers to align the 1280x256 .bmp image with the lower-left corner of the display
-        bn::regular_bg_ptr regular_bg = bn::regular_bg_items::bg_tilemap.create_bg(520, -48);
-        bn::fixed move_amplitude = 30;
+    // (520, -48) are magic numbers to align the 1280x256 .bmp image with the lower-left corner of the display
+    bn::regular_bg_ptr regular_bg = bn::regular_bg_items::bg_tilemap.create_bg(520, -48);
+    bn::fixed move_amplitude = 30;
 
-        // (0, 40) is a magic number to make the sprite appear on the ground
-        bn::sprite_ptr mario = bn::sprite_items::mario.create_sprite(0, 40);
-        // (32, 32) is a magic number to make the sprite appear on the ground
-        bn::sprite_ptr bowser = bn::sprite_items::bowser.create_sprite(32, 32);
+    // (0, 40) is a magic number to make the sprite appear on the ground
+    bn::sprite_ptr mario = bn::sprite_items::mario.create_sprite(0, 40);
+    // (32, 32) is a magic number to make the sprite appear on the ground
+    bn::sprite_ptr bowser = bn::sprite_items::bowser.create_sprite(32, 32);
 
-        bn::sprite_move_loop_action action(mario, 120, move_amplitude, move_amplitude);
+    bn::sprite_move_loop_action action(mario, 120, move_amplitude, move_amplitude);
 
-        bn::camera_ptr camera = bn::camera_ptr::create(0, 0);
-        regular_bg.set_camera(camera);
-        bowser.set_camera(camera);
+    bn::camera_ptr camera = bn::camera_ptr::create(0, 0);
+    regular_bg.set_camera(camera);
+    bowser.set_camera(camera);
 
-        while(true)
-            {
-            action.update();
-            if(bn::keypad::left_held())
-            {
-                camera.set_x(camera.x() - 1);
-                bowser.set_x(bowser.x() - 1);
-                bowser.set_horizontal_flip(true);
-            }
-            else if(bn::keypad::right_held())
-            {
-                camera.set_x(camera.x() + 1);
-                bowser.set_x(bowser.x() + 1);
-                bowser.set_horizontal_flip(false);
-            }
-            if(bn::keypad::up_held())
-            {
-                camera.set_y(camera.y() - 1);
-                bowser.set_y(bowser.y() - 1);
-            }
-            else if(bn::keypad::down_held())
-            {
-                camera.set_y(camera.y() + 1);
-                bowser.set_y(bowser.y() + 1);
-            }
-            bn::core::update();
+    while (true) {
+        action.update();
+
+        if (bn::keypad::left_held()) {
+            camera.set_x(camera.x() - 1);
+            bowser.set_x(bowser.x() - 1);
+            bowser.set_horizontal_flip(true);
+        } else if (bn::keypad::right_held()) {
+            camera.set_x(camera.x() + 1);
+            bowser.set_x(bowser.x() + 1);
+            bowser.set_horizontal_flip(false);
         }
+
+        if (bn::keypad::up_held()) {
+            camera.set_y(camera.y() - 1);
+            bowser.set_y(bowser.y() - 1);
+        } else if (bn::keypad::down_held()) {
+            camera.set_y(camera.y() + 1);
+            bowser.set_y(bowser.y() + 1);
+        }
+
+        bn::core::update();
     }
 }
+}
 
-int main()
-{
+int main() {
     bn::core::init();
 
-    while(true)
-    {
+    while (true) {
         default_scene();
     }
 }
