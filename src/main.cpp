@@ -6,7 +6,8 @@
 
 #include "sbb_path.h"
 
-int main() {
+int main()
+{
     bn::core::init();
     bn::sprite_ptr bowser_sprite = bn::sprite_items::bowser_sprite.create_sprite(0, 0);
     bowser_sprite.set_visible(true);
