@@ -1,5 +1,5 @@
-#ifndef BF_SCENE_H
-#define BF_SCENE_H
+#ifndef SBB_SCENE_H
+#define SBB_SCENE_H
 
 namespace sbb
 {

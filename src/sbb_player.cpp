@@ -36,4 +36,29 @@ namespace sbb
         m_sprite.set_y(m_pos.y());
         m_sprite.put_above();
     }
+
+    void Player::t_delete_data()
+    {
+        m_camera.reset();
+        m_map.reset();
+        m_map_cells.reset();
+    }
+
+    void Player::t_reset()
+    {
+        m_sprite.set_camera(m_camera);
+        m_sprite.set_bg_priority(1);
+        m_sprite.put_above();
+        m_update_camera(1);
+        m_sprite.set_horizontal_flip(false);
+        m_dy = 0;
+        m_dx = 0;
+    }
+
+    void Player::t_hide()
+    {
+        m_sprite.set_visible(false);
+    }
+
+
 }

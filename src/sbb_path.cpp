@@ -21,14 +21,14 @@ namespace sbb
     {
         bn::camera_ptr camera = bn::camera_ptr::create(spawn_location.x(), spawn_location.y());
         bn::affine_bg_ptr map = bn::affine_bg_items::path.create_bg(512, 512);
-        map.set_priority(0);
+        map.set_priority(1);
         // we'll need this eventually for player:set_position()
-        // sbb::Level level = sbb::Level(map);
+        sbb::Level level = sbb::Level(map);
         map.set_camera(camera);
-        // _player->spawn(spawn_location, camera, map);
+        m_player->t_spawn(spawn_location, camera, map);
 
         while (true) {
-            // _player->update_position(map, level);
+            m_player->t_update_position(map, level);
             bn::core::update();
         }
     }
