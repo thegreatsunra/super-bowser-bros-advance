@@ -1,8 +1,8 @@
-#include "sbb_level.hpp"
-
-#include "bn_affine_bg_ptr.h"
 #include "bn_affine_bg_map_ptr.h"
+#include "bn_affine_bg_ptr.h"
 #include "bn_span.h"
+
+#include "sbb_level.hpp"
 
 namespace sbb
 {

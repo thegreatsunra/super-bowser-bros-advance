@@ -1,13 +1,13 @@
+#include "bn_affine_bg_map_ptr.h"
+#include "bn_affine_bg_ptr.h"
+#include "bn_camera_ptr.h"
 #include "bn_fixed_point.h"
 #include "bn_sprite_ptr.h"
-#include "bn_camera_ptr.h"
-#include "bn_affine_bg_ptr.h"
-#include "bn_affine_bg_map_ptr.h"
-
-#include "sbb_player.hpp"
-#include "sbb_level.hpp"
 
 #include "bn_affine_bg_items_path.h"
+
+#include "sbb_level.hpp"
+#include "sbb_player.hpp"
 
 namespace sbb
 {

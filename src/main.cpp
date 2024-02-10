@@ -1,6 +1,6 @@
+#include "bn_camera_actions.h"
 #include "bn_core.h"
 #include "bn_sprite_ptr.h"
-#include "bn_camera_actions.h"
 
 #include "bn_sprite_items_bowser_sprite.h"
 
