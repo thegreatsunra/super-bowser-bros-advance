@@ -1,9 +1,10 @@
 #ifndef SBB_PATH_H
 #define SBB_PATH_H
 
-#include "sbb_scene.h"
-#include "sbb_player.h"
 #include "bn_fixed_point.h"
+
+#include "sbb_scene.hpp"
+#include "sbb_player.hpp"
 
 namespace sbb
 {

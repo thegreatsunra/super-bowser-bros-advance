@@ -4,8 +4,8 @@
 #include "bn_affine_bg_ptr.h"
 #include "bn_affine_bg_map_ptr.h"
 
-#include "sbb_player.h"
-#include "sbb_level.h"
+#include "sbb_player.hpp"
+#include "sbb_level.hpp"
 
 #include "bn_affine_bg_items_path.h"
 

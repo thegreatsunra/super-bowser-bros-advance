@@ -1,1 +1,1 @@
-#include "sbb_hitbox.h"
+#include "sbb_hitbox.hpp"

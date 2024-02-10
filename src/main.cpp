@@ -4,7 +4,7 @@
 
 #include "bn_sprite_items_bowser_sprite.h"
 
-#include "sbb_path.h"
+#include "sbb_path.hpp"
 
 int main()
 {
