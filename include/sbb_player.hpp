@@ -13,19 +13,19 @@ namespace sbb
     class Player
     {
         private:
-            bn::sprite_ptr _sprite;
+            bn::sprite_ptr m_sprite;
 
-            bn::fixed _dx;
-            bn::fixed _dy;
-            bn::fixed_point _pos;
-            bn::optional<bn::camera_ptr> _camera;
-            bn::optional<bn::span<const bn::affine_bg_map_cell>> _map_cells;
-            bn::optional<bn::affine_bg_ptr> _map;
+            bn::fixed m_dx;
+            bn::fixed m_dy;
+            bn::fixed_point m_pos;
+            bn::optional<bn::camera_ptr> m_camera;
+            bn::optional<bn::span<const bn::affine_bg_map_cell>> m_map_cells;
+            bn::optional<bn::affine_bg_ptr> m_map;
         public:
-            Player(bn::sprite_ptr sprite);
+            Player(bn::sprite_ptr m_sprite);
 
-            void hide();
-            void spawn(bn::fixed_point pos, bn::camera_ptr camera, bn::affine_bg_ptr map);
+            void t_hide();
+            void t_spawn(bn::fixed_point m_pos, bn::camera_ptr m_camera, bn::affine_bg_ptr m_map);
     };
 }
 

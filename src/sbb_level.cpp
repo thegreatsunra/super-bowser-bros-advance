@@ -11,9 +11,9 @@ namespace sbb
         bool processed_map = false;
         int index = 0;
         int empties = 0;
-        _floor_tiles = {};
-        _wall_tiles = {};
-        _ceil_tiles = {};
+        m_floor_tiles = {};
+        m_wall_tiles = {};
+        m_ceil_tiles = {};
         bn::span<const bn::affine_bg_map_cell> cells = bg.map().cells_ref().value();
 
         while (!processed_map) {
@@ -25,11 +25,11 @@ namespace sbb
                 }
             } else {
                 if (empties == 0) {
-                    _floor_tiles.push_back(cells.at(index));
+                    m_floor_tiles.push_back(cells.at(index));
                 } else if (empties == 1) {
-                    _wall_tiles.push_back(cells.at(index));
+                    m_wall_tiles.push_back(cells.at(index));
                 } else if (empties == 2) {
-                    _ceil_tiles.push_back(cells.at(index));
+                    m_ceil_tiles.push_back(cells.at(index));
                 }
             }
 
@@ -37,19 +37,19 @@ namespace sbb
         }
     }
 
-    bn::vector<int, 32> Level::floor_tiles()
+    bn::vector<int, 32> Level::t_floor_tiles()
     {
-        return _floor_tiles;
+        return m_floor_tiles;
     }
 
-    bn::vector<int, 32> Level::wall_tiles()
+    bn::vector<int, 32> Level::t_wall_tiles()
     {
-        return _wall_tiles;
+        return m_wall_tiles;
     }
 
-    bn::vector<int, 32> Level::ceil_tiles()
+    bn::vector<int, 32> Level::t_ceil_tiles()
     {
-        return _ceil_tiles;
+        return m_ceil_tiles;
     }
 
 }

@@ -15,7 +15,7 @@
 namespace sbb
 {
     Path::Path(Player &player)
-        : _player(&player) {}
+        : m_player(&player) {}
 
     Scene Path::execute(bn::fixed_point spawn_location)
     {

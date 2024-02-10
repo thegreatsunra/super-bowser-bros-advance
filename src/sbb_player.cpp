@@ -14,26 +14,26 @@ namespace sbb
     enum directions {up, down, left, right};
 
     Player::Player(bn::sprite_ptr sprite) :
-        _sprite(sprite),
-        _camera(bn::camera_ptr::create(0, 0)),
+        m_sprite(sprite),
+        m_camera(bn::camera_ptr::create(0, 0)),
 
-        _map(bn::affine_bg_items::path.create_bg(0, 0))
+        m_map(bn::affine_bg_items::path.create_bg(0, 0))
     {
-        _map.value().set_visible(false);
-        _sprite.put_above();
-        _sprite.set_visible(true);
+        m_map.value().set_visible(false);
+        m_sprite.put_above();
+        m_sprite.set_visible(true);
     }
 
-    void Player::spawn(bn::fixed_point pos, bn::camera_ptr camera, bn::affine_bg_ptr map)
+    void Player::t_spawn(bn::fixed_point pos, bn::camera_ptr camera, bn::affine_bg_ptr map)
     {
-        _pos = pos;
-        _camera = camera;
-        _map = map;
-        _map_cells = map.map().cells_ref().value();
-        _map.value().set_visible(true);
-        _sprite.set_visible(true);
-        _sprite.set_x(_pos.x());
-        _sprite.set_y(_pos.y());
-        _sprite.put_above();
+        m_pos = pos;
+        m_camera = camera;
+        m_map = map;
+        m_map_cells = map.map().cells_ref().value();
+        m_map.value().set_visible(true);
+        m_sprite.set_visible(true);
+        m_sprite.set_x(m_pos.x());
+        m_sprite.set_y(m_pos.y());
+        m_sprite.put_above();
     }
 }

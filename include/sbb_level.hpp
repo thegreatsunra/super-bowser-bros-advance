@@ -9,16 +9,16 @@ namespace sbb
     class Level
     {
         private:
-            bn::vector<int, 32> _floor_tiles;
-            bn::vector<int, 32> _wall_tiles;
-            bn::vector<int, 32> _ceil_tiles;
+            bn::vector<int, 32> m_floor_tiles;
+            bn::vector<int, 32> m_wall_tiles;
+            bn::vector<int, 32> m_ceil_tiles;
 
         public:
             Level(bn::affine_bg_ptr bg);
 
-            [[nodiscard]] bn::vector<int, 32> floor_tiles();
-            [[nodiscard]] bn::vector<int, 32> wall_tiles();
-            [[nodiscard]] bn::vector<int, 32> ceil_tiles();
+            [[nodiscard]] bn::vector<int, 32> t_floor_tiles();
+            [[nodiscard]] bn::vector<int, 32> t_wall_tiles();
+            [[nodiscard]] bn::vector<int, 32> t_ceil_tiles();
     };
 }
 

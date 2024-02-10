@@ -11,10 +11,10 @@ namespace sbb
     class Path
     {
         private:
-            Player *_player;
+            Player *m_player;
         public:
-            Path(Player &player);
-            Scene execute(bn::fixed_point spawn);
+            Path(Player &m_player);
+            Scene execute(bn::fixed_point t_spawn);
     };
 }
 
