@@ -2,6 +2,8 @@
 #include "bn_affine_bg_ptr.h"
 #include "bn_camera_ptr.h"
 #include "bn_fixed_point.h"
+#include "bn_keypad.h"
+#include "bn_math.h"
 #include "bn_sprite_ptr.h"
 
 #include "bn_affine_bg_items_path.h"
@@ -60,80 +62,79 @@ namespace sbb
         m_sprite.set_visible(false);
     }
 
+    constexpr const bn::fixed GRAVITY = 0.2;
+    constexpr const bn::fixed FRICTION = 0.85;
+    constexpr const bn::fixed ACC = 0.4;
 
-    void Player::update_position(bn::affine_bg_ptr map, fe::Level level)
+    void Player::t_update_position(bn::affine_bg_ptr map, sbb::Level level)
     {
-        _update_camera(30 - bn::abs(_dx.integer()) * 5);
-        // apply friction
-        _dx = _dx * friction;
-        //apply gravity
-        _dy += gravity;
+        m_update_camera(30 - bn::abs(m_dx.integer()) * 5);
+        m_dx = m_dx * FRICTION;
+        m_dy += GRAVITY;
 
         // take input
-        if (bn::keypad::left_held() && !_listening) {
-            move_left();
-        } else if (bn::keypad::right_held() && !_listening) {
-            move_right();
-        } else if (_running) { //slide to a stop
-            if (!_falling & !_jumping) {
-                _sliding = true;
-                _running = false;
-            }
-        } else if (_sliding) { //stop sliding
-            if (bn::abs(_dx) < 0.1 || _running) {
-                _sliding = false;
-            }
-        }
-
-        // jump
-        if (bn::keypad::a_pressed()) {
-            jump();
-        }
-
-        // attack
-        if (bn::keypad::b_pressed()) {
-            attack();
-        }
-
-        // collide with enemies
-        // ouch
-        if (_invulnerable) {
-            ++_inv_timer;
-
-            if (modulo(_inv_timer / 5, 2) == 0) {
-                _sprite.set_visible(true);
-            } else {
-                _sprite.set_visible(false);
-            }
-
-            if (_inv_timer > 120) {
-                _invulnerable = false;
-                _inv_timer = 0;
-                _sprite.set_visible(true);
-            }
+        if (bn::keypad::left_held()) {
+            t_move_left();
+        } else if (bn::keypad::right_held()) {
+            t_move_right();
         }
 
         // update position
-        _pos.set_x(_pos.x() + _dx);
-        _pos.set_y(_pos.y() + _dy);
+        m_pos.set_x(m_pos.x() + m_dx);
+        m_pos.set_y(m_pos.y() + m_dy);
 
         // lock player position to map limits x
-        if (_pos.x() > 1016) {
-            _pos.set_x(1016);
-        } else if (_pos.x() < 4) {
-            _pos.set_x(4);
+        if (m_pos.x() > 1016) {
+            m_pos.set_x(1016);
+        } else if (m_pos.x() < 4) {
+            m_pos.set_x(4);
         }
 
         // teleport player to "start" if they fall in a pit
         // i.e. they "fall" above y=600
-        if (_pos.y() > 600) {
-            _pos.set_y(540);
-            _pos.set_x(100);
+        if (m_pos.y() > 600) {
+            m_pos.set_y(540);
+            m_pos.set_x(100);
         }
 
         // update sprite position
-        _sprite.set_x(_pos.x());
-        _sprite.set_y(_pos.y());
+        m_sprite.set_x(m_pos.x());
+        m_sprite.set_y(m_pos.y());
     }
 
+    void Player::t_move_right()
+    {
+        m_sprite.set_horizontal_flip(false);
+        m_dx += ACC;
+    }
+
+    void Player::t_move_left()
+    {
+        m_sprite.set_horizontal_flip(true);
+        m_dx -= ACC;
+    }
+
+    void Player::m_update_camera(int lerp)
+    {
+        // update camera
+        if (m_pos.x() < 122 + 30) {
+            m_camera.value().set_x(m_camera.value().x() + (122 - m_camera.value().x()) / lerp);
+        } else if (m_pos.x() > 922 - 30) {
+            m_camera.value().set_x(m_camera.value().x() + (922 - 20 - m_camera.value().x()) / lerp);
+        } else {
+            if (m_sprite.horizontal_flip()) {
+                m_camera.value().set_x(m_camera.value().x() + (m_pos.x() - 30 - m_camera.value().x() + m_dx * 8) / lerp);
+            } else {
+                m_camera.value().set_x(m_camera.value().x() + (m_pos.x() + 30 - m_camera.value().x() + m_dx * 8) / lerp);
+            }
+        }
+
+        if (m_pos.y() > 942) {
+            m_camera.value().set_y(m_camera.value().y() + (942 - m_camera.value().y()) / lerp);
+        } else if (m_pos.y() < 90) {
+            m_camera.value().set_y(m_camera.value().y() + (90 - m_camera.value().y()) / lerp);
+        } else {
+            m_camera.value().set_y(m_camera.value().y() + (m_pos.y() - 10 - m_camera.value().y()) / lerp);
+        }
+    }
 }

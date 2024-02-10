@@ -25,6 +25,8 @@ namespace sbb
             void m_update_camera(int lerp);
         public:
             Player(bn::sprite_ptr m_sprite);
+    void t_move_right();
+    void t_move_left();
 
             void t_delete_data();
             void t_hide();
