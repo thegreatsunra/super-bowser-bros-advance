@@ -18,13 +18,15 @@ namespace sbb
 {
     enum directions {up, down, left, right};
 
-    [[nodiscard]] int get_map_cell(bn::fixed x, bn::fixed y, bn::affine_bg_ptr &map, bn::span<const bn::affine_bg_map_cell> cells) {
+    [[nodiscard]] int get_map_cell(bn::fixed x, bn::fixed y, bn::affine_bg_ptr &map, bn::span<const bn::affine_bg_map_cell> cells)
+    {
         int map_size = map.dimensions().width();
         int cell =  modulo((y.safe_division(8).right_shift_integer() * map_size / 8 + x / 8), map_size * 8).integer();
         return cells.at(cell);
     }
 
-    [[nodiscard]] bool contains_cell(int tile, bn::vector<int, 32> tiles) {
+    [[nodiscard]] bool contains_cell(int tile, bn::vector<int, 32> tiles)
+    {
         for (int index = 0; index < tiles.size(); ++index) {
             if (tiles.at(index) == tile) {
                 return true;
@@ -34,12 +36,12 @@ namespace sbb
         return false;
     }
 
-    [[nodiscard]] bool check_collisions_map(bn::fixed_point pos, directions direction, Hitbox hitbox, bn::affine_bg_ptr &map, sbb::Level level, bn::span<const bn::affine_bg_map_cell> cells) {
+    [[nodiscard]] bool check_collisions_map(bn::fixed_point pos, directions direction, Hitbox hitbox, bn::affine_bg_ptr &map, sbb::Level level, bn::span<const bn::affine_bg_map_cell> cells)
+    {
         bn::fixed l = pos.x() - hitbox.t_width() / 2 + hitbox.t_x();
         bn::fixed r = pos.x() + hitbox.t_width() / 2 + hitbox.t_x();
         bn::fixed u = pos.y() - hitbox.t_height() / 2 + hitbox.t_y();
         bn::fixed d = pos.y() + hitbox.t_height() / 2 + hitbox.t_y();
-
         bn::vector<int, 32> tiles;
 
         if (direction == down) {
@@ -51,9 +53,9 @@ namespace sbb
         }
 
         if (contains_cell(get_map_cell(l, u, map, cells), tiles) ||
-                contains_cell(get_map_cell(l, d, map, cells), tiles) ||
-                contains_cell(get_map_cell(r, u, map, cells), tiles) ||
-                contains_cell(get_map_cell(l, d, map, cells), tiles)) {
+            contains_cell(get_map_cell(l, d, map, cells), tiles) ||
+            contains_cell(get_map_cell(r, u, map, cells), tiles) ||
+            contains_cell(get_map_cell(l, d, map, cells), tiles)) {
             return true;
         } else {
             return false;
@@ -75,44 +77,45 @@ namespace sbb
         m_sprite.set_visible(true);
     }
 
-void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level) {
-    // if falling
-    if (m_dy > 0) {
-        m_is_falling = true;
-        m_is_grounded = false;
-        m_is_jumping = false;
+    void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level)
+    {
+        // if falling
+        if (m_dy > 0) {
+            m_is_falling = true;
+            m_is_grounded = false;
+            m_is_jumping = false;
 
-        // clamp max fall speed
-        if (m_dy > MAX_DY) {
-            m_dy = MAX_DY;
-        }
+            // clamp max fall speed
+            if (m_dy > MAX_DY) {
+                m_dy = MAX_DY;
+            }
 
-        if (check_collisions_map(m_pos, down, m_hitbox_fall, map, level, m_map_cells.value())) {
-            m_is_grounded = true;
+            if (check_collisions_map(m_pos, down, m_hitbox_fall, map, level, m_map_cells.value())) {
+                m_is_grounded = true;
+                m_is_falling = false;
+                m_dy = 0;
+                m_pos.set_y(m_pos.y() - modulo(m_pos.y(), 8));
+                //todo if they pressed jump a few milliseconds before hitting the ground then jump now
+            }
+        } else if (m_dy < 0) { // jumping
+            m_is_jumping = true;
             m_is_falling = false;
-            m_dy = 0;
-            m_pos.set_y(m_pos.y() - modulo(m_pos.y(), 8));
-            //todo if they pressed jump a few milliseconds before hitting the ground then jump now
-        }
-    } else if (m_dy < 0) { // jumping
-        m_is_jumping = true;
-        m_is_falling = false;
 
-        if (check_collisions_map(m_pos, up, m_hitbox_jump, map, level, m_map_cells.value())) {
-            m_dy = 0;
+            if (check_collisions_map(m_pos, up, m_hitbox_jump, map, level, m_map_cells.value())) {
+                m_dy = 0;
+            }
+        }
+
+        if (m_dx > 0) { // moving right
+            if (check_collisions_map(m_pos, right, m_hitbox_right, map, level, m_map_cells.value())) {
+                m_dx = 0;
+            }
+        } else if (m_dx < 0) { // moving left
+            if (check_collisions_map(m_pos, left, m_hitbox_fall, map, level, m_map_cells.value())) {
+                m_dx = 0;
+            }
         }
     }
-
-    if (m_dx > 0) { // moving right
-        if (check_collisions_map(m_pos, right, m_hitbox_right, map, level, m_map_cells.value())) {
-            m_dx = 0;
-        }
-    } else if (m_dx < 0) { // moving left
-        if (check_collisions_map(m_pos, left, m_hitbox_fall, map, level, m_map_cells.value())) {
-            m_dx = 0;
-        }
-    }
-}
 
     void Player::t_delete_data()
     {
@@ -164,6 +167,7 @@ void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level) {
     void Player::m_update_camera(int lerp)
     {
         BN_LOG("m_update_camera");
+
         // update camera
         if (m_pos.x() < 122 + 30) {
             m_camera.value().set_x(m_camera.value().x() + (122 - m_camera.value().x()) / lerp);
@@ -176,6 +180,7 @@ void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level) {
                 m_camera.value().set_x(m_camera.value().x() + (m_pos.x() + 30 - m_camera.value().x() + m_dx * 8) / lerp);
             }
         }
+
         if (m_pos.y() > 942) {
             m_camera.value().set_y(m_camera.value().y() + (942 - m_camera.value().y()) / lerp);
         } else if (m_pos.y() < 90) {
@@ -201,7 +206,6 @@ void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level) {
 
         // collide
         t_collide_with_objects(map, level);
-
         // update position
         m_pos.set_x(m_pos.x() + m_dx);
         m_pos.set_y(m_pos.y() + m_dy);
@@ -219,7 +223,6 @@ void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level) {
         //     m_pos.set_y(540);
         //     m_pos.set_x(100);
         // }
-
         // update sprite position
         m_sprite.set_x(m_pos.x());
         m_sprite.set_y(m_pos.y());
