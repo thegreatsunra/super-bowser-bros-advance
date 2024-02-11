@@ -29,6 +29,7 @@ namespace sbb
 
         while (true) {
             m_player->t_update_position(map, level);
+            m_player->t_apply_animation_state();
             bn::core::update();
         }
     }

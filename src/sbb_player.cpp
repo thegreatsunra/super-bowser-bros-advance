@@ -78,6 +78,34 @@ namespace sbb
         m_sprite.set_visible(true);
     }
 
+void Player::t_apply_animation_state() {
+
+    m_sprite.set_vertical_scale(1);
+    // if (m_is_jumping) {
+    //     m_action = bn::create_sprite_animate_action_forever(
+    //                   m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 12, 12, 12, 12, 12, 12, 12, 12, 12, 12);
+    // } else if (m_is_falling) {
+    //     m_action = bn::create_sprite_animate_action_forever(
+    //                   m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 13, 13, 13, 13, 13, 13, 13, 13, 13, 13);
+    // } else if (m_is_sliding) {
+    //     m_action = bn::create_sprite_animate_action_forever(
+    //                   m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 6, 6, 6, 6, 6, 6, 6, 6, 6, 6);
+    // } else if (m_is_running) {
+    //     if (m_action.graphics_indexes().front() != 8) {
+    //         m_action = bn::create_sprite_animate_action_forever(
+    //                       m_sprite, 2.5, bn::sprite_items::bowser_sprite.tiles_item(), 0, 1, 0, 2);
+    //     }
+    // } else {
+    //     //idle
+    //     if (m_action.graphics_indexes().front() != 0) {
+    //        m_action = bn::create_sprite_animate_action_forever(
+    //                      m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 0, 1, 0, 2);
+    //     }
+    // }
+
+    m_action.update();
+}
+
     void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level)
     {
         // if falling
