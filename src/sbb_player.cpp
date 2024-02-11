@@ -158,9 +158,7 @@ void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level) {
         m_map_cells = map.map().cells_ref().value();
         m_map.value().set_visible(true);
         m_sprite.set_visible(true);
-        m_sprite.set_x(m_pos.x());
-        m_sprite.set_y(m_pos.y());
-        m_sprite.put_above();
+        t_reset();
     }
 
     void Player::m_update_camera(int lerp)
