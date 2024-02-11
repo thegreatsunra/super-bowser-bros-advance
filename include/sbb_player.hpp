@@ -41,6 +41,7 @@ namespace sbb
             void t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level);
             void t_delete_data();
             void t_hide();
+            void t_jump();
             bool t_is_right();
             void t_move_left();
             void t_move_right();

@@ -62,9 +62,10 @@ namespace sbb
         }
     }
 
-    constexpr const bn::fixed GRAVITY = 0.2;
-    constexpr const bn::fixed FRICTION = 0.85;
     constexpr const bn::fixed ACC = 0.4;
+    constexpr const bn::fixed FRICTION = 0.85;
+    constexpr const bn::fixed GRAVITY = 0.2;
+    constexpr const bn::fixed JUMP_POWER = 4;
     constexpr const bn::fixed MAX_DY = 6;
 
     Player::Player(bn::sprite_ptr sprite) :
@@ -127,6 +128,13 @@ namespace sbb
     void Player::t_hide()
     {
         m_sprite.set_visible(false);
+    }
+
+    void Player::t_jump() {
+        if (m_is_grounded) {
+            m_dy -= JUMP_POWER;
+            m_is_grounded = false;
+        }
     }
 
     void Player::t_move_left()
@@ -203,7 +211,9 @@ namespace sbb
         } else if (bn::keypad::right_held()) {
             t_move_right();
         }
-
+        if (bn::keypad::a_pressed()) {
+            t_jump();
+        }
         // collide
         t_collide_with_objects(map, level);
         // update position
