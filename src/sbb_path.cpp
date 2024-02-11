@@ -6,7 +6,7 @@
 #include "bn_core.h"
 
 #include "bn_affine_bg_items_path.h"
-#include "bn_sprite_items_bowser_sprite.h"
+// #include "bn_sprite_items_bowser_sprite.h"
 
 #include "sbb_path.hpp"
 #include "sbb_player.hpp"
