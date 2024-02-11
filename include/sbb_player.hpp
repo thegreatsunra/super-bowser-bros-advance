@@ -31,10 +31,10 @@ namespace sbb
             bn::fixed_point m_pos;
             bn::sprite_ptr m_sprite;
             void m_update_camera(int lerp);
-            sbb::Hitbox m_hitbox_fall = Hitbox(0, 8, 8, 0);
-            sbb::Hitbox m_hitbox_left = Hitbox(-4, 0, 4, 8);
-            sbb::Hitbox m_hitbox_right = Hitbox(4, 0, 6, 8);
-            sbb::Hitbox m_hitbox_jump = Hitbox(0, 4, 6, 4);
+            sbb::Hitbox m_hitbox_fall = Hitbox(0, 0, 64, 64);
+            sbb::Hitbox m_hitbox_left = Hitbox(0, 0, 64, 64);
+            sbb::Hitbox m_hitbox_right = Hitbox(0, 0, 64, 64);
+            sbb::Hitbox m_hitbox_jump = Hitbox(0, 0, 64, 64);
 
         public:
             Player(bn::sprite_ptr m_sprite);
