@@ -16,7 +16,7 @@ int main()
     while (true) {
         sbb::Path path = sbb::Path(player);
         // no idea why 128, 512 works ... magic numbers for sure
-        path.execute(bn::fixed_point(128, 512));
+        path.execute(bn::fixed_point(128, 384));
         player.t_delete_data();
         player.t_hide();
         bn::core::update();
