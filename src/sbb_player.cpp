@@ -55,7 +55,7 @@ namespace sbb
         if (contains_cell(get_map_cell(l, u, map, cells), tiles) ||
             contains_cell(get_map_cell(l, d, map, cells), tiles) ||
             contains_cell(get_map_cell(r, u, map, cells), tiles) ||
-            contains_cell(get_map_cell(l, d, map, cells), tiles)) {
+            contains_cell(get_map_cell(r, d, map, cells), tiles)) {
             return true;
         } else {
             return false;
@@ -140,7 +140,7 @@ namespace sbb
                 m_dx = 0;
             }
         } else if (m_dx < 0) { // moving left
-            if (check_collisions_map(m_pos, left, m_hitbox_fall, map, level, m_map_cells.value())) {
+            if (check_collisions_map(m_pos, left, m_hitbox_left, map, level, m_map_cells.value())) {
                 m_dx = 0;
             }
         }
