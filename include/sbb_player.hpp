@@ -28,7 +28,6 @@ namespace sbb
             bool m_is_running = false;
             bool m_is_grounded = false;
             bool m_is_sliding = false;
-            bool m_is_already_running = false;
             bn::optional<bn::affine_bg_ptr> m_map;
             bn::optional<bn::span<const bn::affine_bg_map_cell>> m_map_cells;
             bn::fixed_point m_pos;

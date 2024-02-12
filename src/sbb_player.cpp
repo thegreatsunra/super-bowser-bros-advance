@@ -185,7 +185,6 @@ namespace sbb
     {
         m_dx = 0;
         m_dy = 0;
-        m_is_already_running = false;
         m_is_falling = false;
         m_is_grounded = false;
         m_is_jumping = false;
