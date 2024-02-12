@@ -62,11 +62,10 @@ namespace sbb
         }
     }
 
-    constexpr const bn::fixed ACC = 0.4;
+    constexpr const bn::fixed ACC = 0.3;
     constexpr const bn::fixed FRICTION = 0.85;
     constexpr const bn::fixed GRAVITY = 0.2;
     constexpr const bn::fixed JUMP_POWER = 4;
-    constexpr const bn::fixed MAX_DY = 6;
     constexpr const bn::fixed MAX_DY = 4;
 
     Player::Player(bn::sprite_ptr sprite) :
