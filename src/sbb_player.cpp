@@ -67,6 +67,7 @@ namespace sbb
     constexpr const bn::fixed GRAVITY = 0.2;
     constexpr const bn::fixed JUMP_POWER = 4;
     constexpr const bn::fixed MAX_DY = 6;
+    constexpr const bn::fixed MAX_DY = 4;
 
     Player::Player(bn::sprite_ptr sprite) :
         m_camera(bn::camera_ptr::create(0, 0)),
@@ -81,30 +82,25 @@ namespace sbb
     void Player::t_apply_animation_state()
     {
         if (m_is_jumping) {
-            BN_LOG("m_is_jumping");
             m_action = bn::create_sprite_animate_action_forever(
-                           m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
+                           m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
         } else if (m_is_falling) {
-            BN_LOG("m_is_falling");
             m_action = bn::create_sprite_animate_action_forever(
-                           m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 3, 3, 3, 3);
+                           m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 3, 3, 3, 3);
         } else if (m_is_sliding) {
-            BN_LOG("m_is_sliding");
             m_action = bn::create_sprite_animate_action_forever(
-                           m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
+                           m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
         } else if (m_is_running) {
-            BN_LOG("m_is_running");
-
+            // checks if animation state is already "running" and if so, avoids "thrashing" the m_action value
             if (m_action.graphics_indexes().front() != 1) {
                 m_action = bn::create_sprite_animate_action_forever(
-                               m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 1, 0, 2, 0);
+                               m_sprite, 3, bn::sprite_items::bowser_sprite.tiles_item(), 1, 0, 2, 0);
             }
         } else {
-            BN_LOG("is idle");
-
+            // checks if animation state is already "standing" and if so, avoids "thrashing" the m_action value
             if (m_action.graphics_indexes().front() != 0) {
                 m_action = bn::create_sprite_animate_action_forever(
-                               m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 0, 1, 0, 2);
+                               m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 0, 0, 0, 0);
             }
         }
 
