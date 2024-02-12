@@ -78,33 +78,38 @@ namespace sbb
         m_sprite.set_visible(true);
     }
 
-void Player::t_apply_animation_state() {
+    void Player::t_apply_animation_state()
+    {
+        if (m_is_jumping) {
+            BN_LOG("m_is_jumping");
+            m_action = bn::create_sprite_animate_action_forever(
+                           m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
+        } else if (m_is_falling) {
+            BN_LOG("m_is_falling");
+            m_action = bn::create_sprite_animate_action_forever(
+                           m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 3, 3, 3, 3);
+        } else if (m_is_sliding) {
+            BN_LOG("m_is_sliding");
+            m_action = bn::create_sprite_animate_action_forever(
+                           m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
+        } else if (m_is_running) {
+            BN_LOG("m_is_running");
 
-    m_sprite.set_vertical_scale(1);
-    // if (m_is_jumping) {
-    //     m_action = bn::create_sprite_animate_action_forever(
-    //                   m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 12, 12, 12, 12, 12, 12, 12, 12, 12, 12);
-    // } else if (m_is_falling) {
-    //     m_action = bn::create_sprite_animate_action_forever(
-    //                   m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 13, 13, 13, 13, 13, 13, 13, 13, 13, 13);
-    // } else if (m_is_sliding) {
-    //     m_action = bn::create_sprite_animate_action_forever(
-    //                   m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 6, 6, 6, 6, 6, 6, 6, 6, 6, 6);
-    // } else if (m_is_running) {
-    //     if (m_action.graphics_indexes().front() != 8) {
-    //         m_action = bn::create_sprite_animate_action_forever(
-    //                       m_sprite, 2.5, bn::sprite_items::bowser_sprite.tiles_item(), 0, 1, 0, 2);
-    //     }
-    // } else {
-    //     //idle
-    //     if (m_action.graphics_indexes().front() != 0) {
-    //        m_action = bn::create_sprite_animate_action_forever(
-    //                      m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 0, 1, 0, 2);
-    //     }
-    // }
+            if (m_action.graphics_indexes().front() != 1) {
+                m_action = bn::create_sprite_animate_action_forever(
+                               m_sprite, 6, bn::sprite_items::bowser_sprite.tiles_item(), 1, 0, 2, 0);
+            }
+        } else {
+            BN_LOG("is idle");
 
-    m_action.update();
-}
+            if (m_action.graphics_indexes().front() != 0) {
+                m_action = bn::create_sprite_animate_action_forever(
+                               m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 0, 1, 0, 2);
+            }
+        }
+
+        m_action.update();
+    }
 
     void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level)
     {
@@ -158,7 +163,8 @@ void Player::t_apply_animation_state() {
         m_sprite.set_visible(false);
     }
 
-    void Player::t_jump() {
+    void Player::t_jump()
+    {
         if (m_is_grounded) {
             m_dy -= JUMP_POWER;
             m_is_grounded = false;
@@ -167,44 +173,48 @@ void Player::t_apply_animation_state() {
 
     void Player::t_move_left()
     {
-        BN_LOG("t_move_left");
         m_sprite.set_horizontal_flip(true);
         m_dx -= ACC;
+        m_is_running = true;
+        m_is_sliding = false;
     }
     void Player::t_move_right()
     {
-        BN_LOG("t_move_right");
         m_sprite.set_horizontal_flip(false);
         m_dx += ACC;
+        m_is_running = true;
+        m_is_sliding = false;
     }
 
     void Player::t_reset()
     {
-        m_sprite.set_camera(m_camera);
-        m_sprite.set_bg_priority(1);
-        m_sprite.put_above();
-        m_update_camera(1);
-        m_sprite.set_horizontal_flip(false);
-        m_dy = 0;
         m_dx = 0;
+        m_dy = 0;
+        m_is_already_running = false;
+        m_is_falling = false;
+        m_is_grounded = false;
+        m_is_jumping = false;
+        m_is_running = false;
+        m_sprite.put_above();
+        m_sprite.set_bg_priority(1);
+        m_sprite.set_camera(m_camera);
+        m_sprite.set_horizontal_flip(false);
+        m_update_camera(1);
     }
 
     void Player::t_spawn(bn::fixed_point pos, bn::camera_ptr camera, bn::affine_bg_ptr map)
     {
-        m_pos = pos;
         m_camera = camera;
         m_map = map;
         m_map_cells = map.map().cells_ref().value();
         m_map.value().set_visible(true);
+        m_pos = pos;
         m_sprite.set_visible(true);
         t_reset();
     }
 
     void Player::m_update_camera(int lerp)
     {
-        BN_LOG("m_update_camera");
-
-        // update camera
         if (m_pos.x() < 122 + 30) {
             m_camera.value().set_x(m_camera.value().x() + (122 - m_camera.value().x()) / lerp);
         } else if (m_pos.x() > 922 - 30) {
@@ -228,7 +238,6 @@ void Player::t_apply_animation_state() {
 
     void Player::t_update_position(bn::affine_bg_ptr map, sbb::Level level)
     {
-        BN_LOG("t_update_position");
         m_update_camera(30 - bn::abs(m_dx.integer()) * 5);
         m_dx = m_dx * FRICTION;
         m_dy += GRAVITY;
@@ -238,10 +247,21 @@ void Player::t_apply_animation_state() {
             t_move_left();
         } else if (bn::keypad::right_held()) {
             t_move_right();
+        } else if (m_is_running) { //slide to a stop
+            if (!m_is_falling & !m_is_jumping) {
+                m_is_sliding = true;
+                m_is_running = false;
+            }
+        } else if (m_is_sliding) { //stop sliding
+            if (bn::abs(m_dx) < 0.1 || m_is_running) {
+                m_is_sliding = false;
+            }
         }
+
         if (bn::keypad::a_pressed()) {
             t_jump();
         }
+
         // collide
         t_collide_with_objects(map, level);
         // update position
@@ -255,12 +275,6 @@ void Player::t_apply_animation_state() {
             m_pos.set_x(4);
         }
 
-        // // teleport player to "start" if they fall in a pit
-        // // i.e. they "fall" above y=600
-        // if (m_pos.y() > 600) {
-        //     m_pos.set_y(540);
-        //     m_pos.set_x(100);
-        // }
         // update sprite position
         m_sprite.set_x(m_pos.x());
         m_sprite.set_y(m_pos.y());
