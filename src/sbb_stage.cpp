@@ -32,11 +32,11 @@ namespace sbb
         map.set_camera(camera);
         map_bg.set_camera(camera);
         bn::vector<Enemy, 16> enemies = {};
-        enemies.push_back(Enemy(400, 500, camera, map, ENEMY_TYPE::MARIO, 2));
-        enemies.push_back(Enemy(500, 500, camera, map, ENEMY_TYPE::MARIO, 2));
-        enemies.push_back(Enemy(600, 500, camera, map, ENEMY_TYPE::MARIO, 2));
-        enemies.push_back(Enemy(700, 500, camera, map, ENEMY_TYPE::MARIO, 2));
-        enemies.push_back(Enemy(800, 500, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(128, 900, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(176, 900, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(200, 900, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(228, 900, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(256, 900, camera, map, ENEMY_TYPE::MARIO, 2));
         m_player->t_spawn(camera, enemies, map, spawn_location);
 
         while (true) {
