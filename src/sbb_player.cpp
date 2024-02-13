@@ -38,10 +38,10 @@ namespace sbb
 
     [[nodiscard]] bool hitbox_collided_with_cell(bn::fixed_point pos, directions direction, Hitbox hitbox, bn::affine_bg_ptr &map, sbb::Level level, bn::span<const bn::affine_bg_map_cell> cells)
     {
-        bn::fixed l = pos.x() - (hitbox.t_width() / 2 + hitbox.t_x());
-        bn::fixed r = pos.x() + (hitbox.t_width() / 2 + hitbox.t_x());
-        bn::fixed u = pos.y() - (hitbox.t_height() / 2 + hitbox.t_y());
-        bn::fixed d = pos.y() + (hitbox.t_height() / 2 + hitbox.t_y());
+        bn::fixed l = pos.x() - (hitbox.t_width() / 2 - hitbox.t_x());
+        bn::fixed r = pos.x() + (hitbox.t_width() / 2 - hitbox.t_x());
+        bn::fixed u = pos.y() - (hitbox.t_height() / 2 - hitbox.t_y());
+        bn::fixed d = pos.y() + (hitbox.t_height() / 2 - hitbox.t_y());
         bn::vector<int, 32> tiles;
 
         if (direction == down) {
