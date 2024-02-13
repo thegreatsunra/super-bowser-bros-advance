@@ -35,10 +35,10 @@ namespace sbb
             void m_update_camera(int lerp);
             // for m_hitbox_fall Hitbox(-15, 0, 44, 64) works but I don't know why
             // for m_hitbox_fall Hitbox(0, 0, 10, 64) also works but I don't know why 
-            sbb::Hitbox m_hitbox_fall = Hitbox(-15, 0, 44, 64);
             sbb::Hitbox m_hitbox_left = Hitbox(0, 0, 44, 64);
             sbb::Hitbox m_hitbox_right = Hitbox(0, 0, 44, 64);
             sbb::Hitbox m_hitbox_jump = Hitbox(0, 0, 64, 64);
+            sbb::Hitbox m_hitbox_fall = Hitbox(-21, 0, 44, 64);
             bn::sprite_animate_action<4> m_action = bn::create_sprite_animate_action_forever(
                     m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 0, 0, 0, 0);
 
