@@ -15,8 +15,7 @@ int main()
 
     while (true) {
         sbb::Stage stage = sbb::Stage(player);
-        // no idea why 128, 512 works ... magic numbers for sure
-        stage.execute(bn::fixed_point(680, 386));
+        stage.execute(bn::fixed_point(64, 968));
         player.t_delete_data();
         player.t_hide();
         bn::core::update();
