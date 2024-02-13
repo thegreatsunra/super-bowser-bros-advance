@@ -33,7 +33,9 @@ namespace sbb
             bn::fixed_point m_pos;
             bn::sprite_ptr m_sprite;
             void m_update_camera(int lerp);
-            sbb::Hitbox m_hitbox_fall = Hitbox(10, 0, 44, 64);
+            // for m_hitbox_fall Hitbox(-15, 0, 44, 64) works but I don't know why
+            // for m_hitbox_fall Hitbox(0, 0, 10, 64) also works but I don't know why 
+            sbb::Hitbox m_hitbox_fall = Hitbox(-15, 0, 44, 64);
             sbb::Hitbox m_hitbox_left = Hitbox(0, 0, 44, 64);
             sbb::Hitbox m_hitbox_right = Hitbox(0, 0, 44, 64);
             sbb::Hitbox m_hitbox_jump = Hitbox(0, 0, 64, 64);
