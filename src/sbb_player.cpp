@@ -9,6 +9,8 @@
 
 #include "bn_affine_bg_items_stage.h"
 
+#include "sbb_enemy.hpp"
+#include "sbb_enemy_type.hpp"
 #include "sbb_extras.hpp"
 #include "sbb_hitbox.hpp"
 #include "sbb_level.hpp"
@@ -106,7 +108,29 @@ namespace sbb
         m_action.update();
     }
 
-    void Player::t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level)
+    void Player::t_collide_with_enemies()
+    {
+        Hitbox collide_hitbox = Hitbox(m_pos.x(), m_pos.y() + 2, 8, 12);
+
+        for (int i = 0; i < m_enemies.value()->size(); i++) {
+            if (m_enemies.value()->at(i).t_is_hit(collide_hitbox)) {
+                if (m_enemies.value()->at(i).t_hp() > 0) {
+                    m_dy -= 0.3;
+
+                    if (m_dx < 0) {
+                        m_dx += 6;
+                    } else if (m_dx > 0) {
+                        m_dx -= 6;
+                    }
+                }
+            }
+        }
+    }
+
+    void Player::t_collide_with_objects(
+        sbb::Level level,
+        bn::affine_bg_ptr map
+    )
     {
         // if falling
         if (m_dy > 0) {
@@ -159,6 +183,7 @@ namespace sbb
     void Player::t_delete_data()
     {
         m_camera.reset();
+        m_enemies.reset();
         m_map.reset();
         m_map_cells.reset();
     }
@@ -191,6 +216,11 @@ namespace sbb
         m_is_sliding = false;
     }
 
+    bn::fixed_point Player::t_pos()
+    {
+        return m_pos;
+    }
+
     void Player::t_reset()
     {
         m_dx = 0;
@@ -206,9 +236,15 @@ namespace sbb
         m_update_camera(1);
     }
 
-    void Player::t_spawn(bn::fixed_point pos, bn::camera_ptr camera, bn::affine_bg_ptr map)
+    void Player::t_spawn(
+        bn::camera_ptr camera,
+        bn::vector<Enemy, 16> &enemies,
+        bn::affine_bg_ptr map,
+        bn::fixed_point pos
+    )
     {
         m_camera = camera;
+        m_enemies = &enemies;
         m_map = map;
         m_map_cells = map.map().cells_ref().value();
         m_map.value().set_visible(true);
@@ -267,7 +303,8 @@ namespace sbb
         }
 
         // collide
-        t_collide_with_objects(map, level);
+        t_collide_with_objects(level, map);
+        t_collide_with_enemies();
         // update position
         m_pos.set_x(m_pos.x() + m_dx);
         m_pos.set_y(m_pos.y() + m_dy);

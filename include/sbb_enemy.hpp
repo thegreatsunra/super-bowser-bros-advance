@@ -47,7 +47,7 @@ public:
     bool t_damage_from_left(int damage);
     bool t_damage_from_right(int damage);
     int t_hp();
-    bn::fixed_point pos();
+    bn::fixed_point t_pos();
     bool t_is_hit(Hitbox attack);
     void t_set_pos(bn::fixed_point pos);
     void t_set_visible(bool visibility);

@@ -9,6 +9,7 @@
 #include "bn_sprite_animate_actions.h"
 #include "bn_sprite_ptr.h"
 
+#include "sbb_enemy.hpp"
 #include "sbb_hitbox.hpp"
 #include "sbb_level.hpp"
 
@@ -22,7 +23,7 @@ namespace sbb
             bn::optional<bn::camera_ptr> m_camera;
             bn::fixed m_dx;
             bn::fixed m_dy;
-            //used for state management
+            bn::optional<bn::vector<Enemy, 16>*> m_enemies;
             bool m_is_jumping = false;
             bool m_is_falling = false;
             bool m_is_running = false;
@@ -45,7 +46,11 @@ namespace sbb
         public:
             Player(bn::sprite_ptr m_sprite);
             void t_apply_animation_state();
-            void t_collide_with_objects(bn::affine_bg_ptr map, sbb::Level level);
+            void t_collide_with_enemies();
+            void t_collide_with_objects(
+                sbb::Level level,
+                bn::affine_bg_ptr map
+            );
             void t_delete_data();
             void t_hide();
             void t_jump();
@@ -54,7 +59,12 @@ namespace sbb
             void t_move_right();
             [[nodiscard]] bn::fixed_point t_pos();
             void t_reset();
-            void t_spawn(bn::fixed_point m_pos, bn::camera_ptr m_camera, bn::affine_bg_ptr m_map);
+            void t_spawn(
+                bn::camera_ptr m_camera,
+                bn::vector<Enemy, 16> &m_enemies,
+                bn::affine_bg_ptr m_map,
+                bn::fixed_point m_pos
+            );
             void t_update_position(bn::affine_bg_ptr map, sbb::Level level);
     };
 }

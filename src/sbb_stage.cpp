@@ -1,17 +1,19 @@
-
 #include "bn_affine_bg_map_cell.h"
 #include "bn_affine_bg_map_ptr.h"
 #include "bn_affine_bg_ptr.h"
-#include "bn_regular_bg_ptr.h"
 #include "bn_camera_ptr.h"
 #include "bn_core.h"
+#include "bn_math.h"
+#include "bn_regular_bg_ptr.h"
 
 #include "bn_affine_bg_items_stage.h"
 #include "bn_regular_bg_items_background.h"
 
-#include "sbb_stage.hpp"
+#include "sbb_enemy_type.hpp"
+#include "sbb_enemy.hpp"
 #include "sbb_player.hpp"
 #include "sbb_scene.hpp"
+#include "sbb_stage.hpp"
 
 namespace sbb
 {
@@ -29,11 +31,26 @@ namespace sbb
         sbb::Level level = sbb::Level(map);
         map.set_camera(camera);
         map_bg.set_camera(camera);
-        m_player->t_spawn(spawn_location, camera, map);
+        bn::vector<Enemy, 16> enemies = {};
+        enemies.push_back(Enemy(400, 500, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(500, 500, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(600, 500, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(700, 500, camera, map, ENEMY_TYPE::MARIO, 2));
+        enemies.push_back(Enemy(800, 500, camera, map, ENEMY_TYPE::MARIO, 2));
+        m_player->t_spawn(camera, enemies, map, spawn_location);
 
         while (true) {
             m_player->t_update_position(map, level);
             m_player->t_apply_animation_state();
+
+            for (Enemy &enemy : enemies) {
+                if (bn::abs(enemy.t_pos().x() - camera.x()) < 200 && bn::abs(enemy.t_pos().y() - camera.y()) < 100) {
+                    enemy.t_update(m_player->t_pos());
+                } else {
+                    enemy.t_set_visible(false);
+                }
+            }
+
             bn::core::update();
         }
     }

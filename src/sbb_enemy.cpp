@@ -123,4 +123,195 @@ namespace sbb
     {
         m_sprite.value().set_visible(visiblity);
     }
+
+    bool Enemy::m_take_damage(int damage)
+    {
+        m_hp -= damage;
+
+        if (m_hp <= 0) {
+            // bn::sound_items::death.play();
+            if (m_type == ENEMY_TYPE::MARIO) {
+                m_action = bn::create_sprite_animate_action_once(
+                               m_sprite.value(), 5, bn::sprite_items::mario_sprite.tiles_item(), 0, 1, 2, 1);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    bool Enemy::t_is_hit(Hitbox attack)
+    {
+        if (!m_dead) {
+            // fuck check_collisions_bb() is a mess
+            // return check_collisions_bb(attack, _pos.x(), _pos.y(), 8, 8);
+        } else {
+            return false;
+        }
+    }
+
+    bool Enemy::m_will_hit_wall()
+    {
+        if (_check_collisions_map(m_pos, Hitbox(-4, 0, 12, 12), directions::left, m_map, m_level, m_map_cells)) {
+            return true;
+        }
+
+        if (_check_collisions_map(m_pos, Hitbox(10, 0, 12, 12), directions::right, m_map, m_level, m_map_cells)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    bool Enemy::m_fall_check(bn::fixed x, bn::fixed y)
+    {
+        if (_check_collisions_map(
+                bn::fixed_point(x, y),
+                Hitbox(0, 16, 4, 9),
+                directions::down,
+                m_map,
+                m_level,
+                m_map_cells
+            )) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    bool Enemy::m_will_fall()
+    {
+        if (m_dx < 0) { // left
+            if (!_check_collisions_map(m_pos, Hitbox(-4, 8, 4, 8), directions::down, m_map, m_level, m_map_cells)) {
+                return true;
+            }
+        } else { //right
+            if (!_check_collisions_map(m_pos, Hitbox(4, 8, 4, 8), directions::down, m_map, m_level, m_map_cells)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bn::fixed_point Enemy::t_pos()
+    {
+        return m_pos;
+    }
+
+    int Enemy::t_hp()
+    {
+        return m_hp;
+    }
+
+    void Enemy::t_set_pos(bn::fixed_point pos)
+    {
+        m_pos = pos;
+    }
+
+    bool Enemy::t_spotted_player()
+    {
+        return m_spotted_player;
+    }
+
+    ENEMY_TYPE Enemy::t_type()
+    {
+        return m_type;
+    }
+
+    void Enemy::t_update(bn::fixed_point player_pos)
+    {
+        if (!m_dead) {
+            if (!m_sprite.value().visible()) {
+                m_sprite.value().set_visible(true);
+            }
+
+            // dead check
+            if (m_action.has_value() && m_action.value().done()) {
+                m_sprite.value().set_visible(false);
+                m_dead = true;
+            }
+
+            m_dy += gravity;
+
+            if (m_type == ENEMY_TYPE::MARIO) {
+                if (m_grounded && m_direction_timer > 30) {
+                    if (m_will_fall() || m_will_hit_wall()) {
+                        m_dx = 0;
+                        m_dir = -m_dir;
+                        m_direction_timer = 0;
+                        m_sprite.value().set_horizontal_flip(!m_sprite.value().horizontal_flip());
+                    }
+                }
+
+                if (m_type == ENEMY_TYPE::MARIO) {
+                    if ((m_action.value().current_index() == 1 || m_action.value().current_index() == 3)  && m_grounded) {
+                        if (m_type == ENEMY_TYPE::MARIO) {
+                            m_dx += m_dir * acc;
+                        } else {
+                            m_dx += m_dir * acc * 1.5;
+                        }
+
+                        // 10 (or 20) is a magic number
+                        // maybe bind to animate_forever value
+                        // if (_sound_timer > 10) {
+                        //     bn::sound_items::steps.play(0.3);
+                        //     _sound_timer = 0;
+                        // } else {
+                        //     ++_sound_timer;
+                        // }
+                    }
+                }
+            }
+
+            m_dx = m_dx * friction;
+
+            if (m_dx > 0) {
+                m_sprite.value().set_horizontal_flip(false);
+            } else if (m_dx < 0) {
+                m_sprite.value().set_horizontal_flip(true);
+            }
+
+            //fall
+            if (m_dy > 0) {
+                if (_check_collisions_map(m_pos, Hitbox(0, 8, 8, 0), directions::down, m_map, m_level, m_map_cells)) {
+                    m_dy = 0;
+                    // BN_LOG(bn::to_string<32>(_pos.x())+" " + bn::to_string<32>(_pos.y()));
+                    m_pos.set_y(m_pos.y() - modulo(m_pos.y(), 8));
+                    m_grounded = true;
+                } else {
+                    m_grounded = false;
+                }
+            }
+
+            //bounce?
+            if (bn::abs(m_dx) > 0) {
+                if (_check_collisions_map(m_pos, Hitbox(0, 0, 4, 8), directions::left, m_map, m_level, m_map_cells)) {
+                    m_dx = -m_dx;
+                    // _direction_timer = 0;
+                }
+            }
+
+            //max
+            if (m_dy > max_dy) {
+                m_dy = max_dy;
+            }
+
+            if (m_hp >= 0) {
+                m_pos.set_x(m_pos.x() + m_dx);
+                m_pos.set_y(m_pos.y() + m_dy);
+                m_sprite.value().set_position(m_pos);
+                m_sprite.value().set_y(m_sprite.value().y() - 1);
+            }
+
+            if (m_action.has_value() && !m_action.value().done()) {
+                m_action.value().update();
+            }
+
+            if (m_direction_timer < 121) {
+                m_direction_timer += 1;
+            }
+        }
+    }
 }
