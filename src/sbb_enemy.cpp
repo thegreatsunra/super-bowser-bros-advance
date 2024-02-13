@@ -91,7 +91,7 @@ namespace sbb
             m_sprite.value().set_camera(m_camera);
             m_sprite.value().set_bg_priority(1);
             m_action = bn::create_sprite_animate_action_forever(
-                           m_sprite.value(), 10, bn::sprite_items::mario_sprite.tiles_item(), 0, 1, 0, 1);
+                           m_sprite.value(), 5, bn::sprite_items::mario_sprite.tiles_item(), 0, 1, 2, 1);
         }
 
         m_sprite.value().set_visible(true);
