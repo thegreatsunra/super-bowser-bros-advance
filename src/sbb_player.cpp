@@ -7,7 +7,7 @@
 #include "bn_math.h"
 #include "bn_sprite_ptr.h"
 
-#include "bn_affine_bg_items_path.h"
+#include "bn_affine_bg_items_stage.h"
 
 #include "sbb_extras.hpp"
 #include "sbb_hitbox.hpp"
@@ -70,7 +70,7 @@ namespace sbb
 
     Player::Player(bn::sprite_ptr sprite) :
         m_camera(bn::camera_ptr::create(0, 0)),
-        m_map(bn::affine_bg_items::path.create_bg(0, 0)),
+        m_map(bn::affine_bg_items::stage.create_bg(0, 0)),
         m_sprite(sprite)
     {
         m_map.value().set_visible(false);

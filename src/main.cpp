@@ -4,7 +4,7 @@
 
 #include "bn_sprite_items_bowser_sprite.h"
 
-#include "sbb_path.hpp"
+#include "sbb_stage.hpp"
 
 int main()
 {
@@ -14,9 +14,9 @@ int main()
     sbb::Player player = sbb::Player(bowser_sprite);
 
     while (true) {
-        sbb::Path path = sbb::Path(player);
+        sbb::Stage stage = sbb::Stage(player);
         // no idea why 128, 512 works ... magic numbers for sure
-        path.execute(bn::fixed_point(680, 386));
+        stage.execute(bn::fixed_point(680, 386));
         player.t_delete_data();
         player.t_hide();
         bn::core::update();

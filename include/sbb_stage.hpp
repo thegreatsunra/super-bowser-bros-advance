@@ -1,5 +1,5 @@
-#ifndef SBB_PATH_H
-#define SBB_PATH_H
+#ifndef SBB_STAGE_H
+#define SBB_STAGE_H
 
 #include "bn_fixed_point.h"
 
@@ -8,12 +8,12 @@
 
 namespace sbb
 {
-    class Path
+    class Stage
     {
         private:
             Player *m_player;
         public:
-            Path(Player &m_player);
+            Stage(Player &m_player);
             Scene execute(bn::fixed_point t_spawn);
     };
 }

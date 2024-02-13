@@ -4,7 +4,7 @@
 namespace sbb
 {
     enum class Scene {
-        PATH,
+        STAGE,
     };
 }
 
