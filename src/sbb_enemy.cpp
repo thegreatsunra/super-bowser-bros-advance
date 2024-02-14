@@ -16,52 +16,6 @@
 
 namespace sbb
 {
-    enum directions {up, down, left, right};
-
-    [[nodiscard]] int _get_map_cell(bn::fixed x, bn::fixed y, bn::affine_bg_ptr &map, bn::span<const bn::affine_bg_map_cell> cells)
-    {
-        int map_size = map.dimensions().width();
-        int cell =  modulo((y.safe_division(8).right_shift_integer() * map_size / 8 + x / 8), map_size * 8).integer();
-        return cells.at(cell);
-    }
-
-    [[nodiscard]] bool _contains_cell(int tile, bn::vector<int, 32> tiles)
-    {
-        for (int index = 0; index < tiles.size(); ++index) {
-            if (tiles.at(index) == tile) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    [[nodiscard]] bool _check_collisions_map(bn::fixed_point pos, Hitbox hitbox, directions direction, bn::affine_bg_ptr &map, sbb::Level level, bn::span<const bn::affine_bg_map_cell> cells)
-    {
-        bn::fixed l = pos.x() - hitbox.t_width() / 2 + hitbox.t_x();
-        bn::fixed r = pos.x() + hitbox.t_width() / 2 + hitbox.t_x();
-        bn::fixed u = pos.y() - hitbox.t_height() / 2 + hitbox.t_y();
-        bn::fixed d = pos.y() + hitbox.t_height() / 2 + hitbox.t_y();
-        bn::vector<int, 32> tiles;
-
-        if (direction == down) {
-            tiles = level.t_floor_tiles();
-        } else if (direction == left || direction == right) {
-            tiles = level.t_wall_tiles();
-        } else if (direction == up) {
-            tiles = level.t_ceil_tiles();
-        }
-
-        if (_contains_cell(_get_map_cell(l, u, map, cells), tiles) ||
-            _contains_cell(_get_map_cell(l, d, map, cells), tiles) ||
-            _contains_cell(_get_map_cell(r, u, map, cells), tiles) ||
-            _contains_cell(_get_map_cell(l, d, map, cells), tiles)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     constexpr const bn::fixed gravity = 0.2;
     constexpr const bn::fixed wall_run_speed = 0.25;
     constexpr const bn::fixed jump_power = 4;
@@ -153,11 +107,25 @@ namespace sbb
 
     bool Enemy::m_will_hit_wall()
     {
-        if (_check_collisions_map(m_pos, Hitbox(-4, 0, 12, 12), directions::left, m_map, m_level, m_map_cells)) {
+        if (sbb::hitbox_collided_with_cell(
+                m_pos,
+                directions::left,
+                Hitbox(-4, 0, 12, 12),
+                m_map,
+                m_level,
+                m_map_cells
+            )) {
             return true;
         }
 
-        if (_check_collisions_map(m_pos, Hitbox(10, 0, 12, 12), directions::right, m_map, m_level, m_map_cells)) {
+        if (sbb::hitbox_collided_with_cell(
+                m_pos,
+                directions::right,
+                Hitbox(10, 0, 12, 12),
+                m_map,
+                m_level,
+                m_map_cells
+            )) {
             return true;
         }
 
@@ -166,10 +134,10 @@ namespace sbb
 
     bool Enemy::m_fall_check(bn::fixed x, bn::fixed y)
     {
-        if (_check_collisions_map(
+        if (sbb::hitbox_collided_with_cell(
                 bn::fixed_point(x, y),
-                Hitbox(0, 16, 4, 9),
                 directions::down,
+                Hitbox(0, 16, 4, 9),
                 m_map,
                 m_level,
                 m_map_cells
@@ -183,11 +151,25 @@ namespace sbb
     bool Enemy::m_will_fall()
     {
         if (m_dx < 0) { // left
-            if (!_check_collisions_map(m_pos, Hitbox(-4, 8, 4, 8), directions::down, m_map, m_level, m_map_cells)) {
+            if (!sbb::hitbox_collided_with_cell(
+                    m_pos,
+                    directions::down,
+                    Hitbox(-4, 8, 4, 8),
+                    m_map,
+                    m_level,
+                    m_map_cells
+                )) {
                 return true;
             }
         } else { //right
-            if (!_check_collisions_map(m_pos, Hitbox(4, 8, 4, 8), directions::down, m_map, m_level, m_map_cells)) {
+            if (!sbb::hitbox_collided_with_cell(
+                    m_pos,
+                    directions::down,
+                    Hitbox(4, 8, 4, 8),
+                    m_map,
+                    m_level,
+                    m_map_cells
+                )) {
                 return true;
             }
         }
@@ -275,7 +257,14 @@ namespace sbb
 
             //fall
             if (m_dy > 0) {
-                if (_check_collisions_map(m_pos, Hitbox(0, 8, 8, 0), directions::down, m_map, m_level, m_map_cells)) {
+                if (sbb::hitbox_collided_with_cell(
+                        m_pos,
+                        directions::down,
+                        Hitbox(0, 8, 8, 0),
+                        m_map,
+                        m_level,
+                        m_map_cells
+                    )) {
                     m_dy = 0;
                     // BN_LOG(bn::to_string<32>(_pos.x())+" " + bn::to_string<32>(_pos.y()));
                     m_pos.set_y(m_pos.y() - modulo(m_pos.y(), 8));
@@ -287,7 +276,14 @@ namespace sbb
 
             //bounce?
             if (bn::abs(m_dx) > 0) {
-                if (_check_collisions_map(m_pos, Hitbox(0, 0, 4, 8), directions::left, m_map, m_level, m_map_cells)) {
+                if (sbb::hitbox_collided_with_cell(
+                        m_pos,
+                        directions::left,
+                        Hitbox(0, 0, 4, 8),
+                        m_map,
+                        m_level,
+                        m_map_cells
+                    )) {
                     m_dx = -m_dx;
                     // _direction_timer = 0;
                 }
