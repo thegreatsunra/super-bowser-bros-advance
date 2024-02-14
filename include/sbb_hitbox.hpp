@@ -4,7 +4,8 @@
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
 
-namespace sbb {
+namespace sbb
+{
     class Hitbox
     {
         private:

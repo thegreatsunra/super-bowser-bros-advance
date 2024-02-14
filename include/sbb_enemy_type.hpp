@@ -3,7 +3,8 @@
 
 namespace sbb
 {
-    enum class ENEMY_TYPE {
+    enum class ENEMY_TYPE
+    {
         MARIO
     };
 }

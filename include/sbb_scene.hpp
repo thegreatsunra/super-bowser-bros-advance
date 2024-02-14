@@ -3,7 +3,8 @@
 
 namespace sbb
 {
-    enum class Scene {
+    enum class Scene
+    {
         STAGE,
     };
 }

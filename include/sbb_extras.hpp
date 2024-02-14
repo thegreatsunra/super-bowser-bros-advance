@@ -12,7 +12,7 @@
 #include "sbb_level.hpp"
 
 namespace sbb
-    {
+{
     bool contains_cell(int tile, bn::vector<int, 32> tiles);
     enum directions {up, down, left, right};
     int get_map_cell(bn::fixed x, bn::fixed y, bn::affine_bg_ptr &map, bn::span<const bn::affine_bg_map_cell> cells);
@@ -21,6 +21,6 @@ namespace sbb
     {
         return a - m * ((a / m).integer());
     }
-    }
+}
 
 #endif
