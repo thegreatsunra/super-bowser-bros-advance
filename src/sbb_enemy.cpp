@@ -142,8 +142,10 @@ namespace sbb
                 m_level,
                 m_map_cells
             )) {
+            BN_LOG("m_fall_check true");
             return true;
         } else {
+            BN_LOG("m_fall_check false");
             return false;
         }
     }
@@ -154,11 +156,12 @@ namespace sbb
             if (!sbb::hitbox_collided_with_cell(
                     m_pos,
                     directions::down,
-                    Hitbox(-4, 8, 4, 8),
+                    Hitbox(-4, 32, 4, 8),
                     m_map,
                     m_level,
                     m_map_cells
                 )) {
+                BN_LOG("m_will_fall true (left)");
                 return true;
             }
         } else { //right
@@ -170,6 +173,7 @@ namespace sbb
                     m_level,
                     m_map_cells
                 )) {
+                BN_LOG("m_will_fall true (right)");
                 return true;
             }
         }
@@ -275,19 +279,19 @@ namespace sbb
             }
 
             //bounce?
-            if (bn::abs(m_dx) > 0) {
-                if (sbb::hitbox_collided_with_cell(
-                        m_pos,
-                        directions::left,
-                        Hitbox(0, 0, 4, 8),
-                        m_map,
-                        m_level,
-                        m_map_cells
-                    )) {
-                    m_dx = -m_dx;
-                    // _direction_timer = 0;
-                }
-            }
+            // if (bn::abs(m_dx) > 0) {
+            //     if (sbb::hitbox_collided_with_cell(
+            //             m_pos,
+            //             directions::left,
+            //             Hitbox(0, 0, 4, 8),
+            //             m_map,
+            //             m_level,
+            //             m_map_cells
+            //         )) {
+            //         m_dx = -m_dx;
+            //         // _direction_timer = 0;
+            //     }
+            // }
 
             //max
             if (m_dy > max_dy) {
