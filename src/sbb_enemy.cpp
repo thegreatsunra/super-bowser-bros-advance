@@ -98,8 +98,7 @@ namespace sbb
     bool Enemy::t_is_hit(Hitbox attack)
     {
         if (!m_dead) {
-            // fuck check_collisions_bb() is a mess
-            // return check_collisions_bb(attack, _pos.x(), _pos.y(), 8, 8);
+            return check_collisions(attack, m_pos.x(), m_pos.y(), 8, 8);
         } else {
             return false;
         }
