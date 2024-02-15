@@ -64,11 +64,12 @@ namespace sbb
 
     void Player::t_collide_with_enemies()
     {
-        Hitbox collide_hitbox = Hitbox(m_pos.x(), m_pos.y() + 2, 8, 12);
+        Hitbox collide_hitbox = Hitbox(m_pos.x(), m_pos.y(), 64, 64);
 
         for (int i = 0; i < m_enemies.value()->size(); i++) {
             if (m_enemies.value()->at(i).t_is_hit(collide_hitbox)) {
                 if (m_enemies.value()->at(i).t_hp() > 0) {
+                    BN_LOG("You collided with an enemy!");
                     m_dy -= 0.3;
 
                     if (m_dx < 0) {
@@ -88,7 +89,7 @@ namespace sbb
     {
         // if falling
         if (m_dy > 0) {
-            BN_LOG("delta y greater than 0 so falling");
+            // BN_LOG("delta y greater than 0 so falling");
             m_is_falling = true;
             m_is_grounded = false;
             m_is_jumping = false;
@@ -99,7 +100,7 @@ namespace sbb
             }
 
             if (hitbox_collided_with_cell(m_pos, down, m_hitbox_fall, map, level, m_map_cells.value())) {
-                BN_LOG("falling and collided with ground cell");
+                // BN_LOG("falling and collided with ground cell");
                 m_is_grounded = true;
                 m_is_falling = false;
                 m_dy = 0;
@@ -107,28 +108,28 @@ namespace sbb
                 //todo if they pressed jump a few milliseconds before hitting the ground then jump now
             }
         } else if (m_dy < 0) { // jumping
-            BN_LOG("delta y less than 0 so jumping");
+            // BN_LOG("delta y less than 0 so jumping");
             m_is_jumping = true;
             m_is_falling = false;
 
             if (hitbox_collided_with_cell(m_pos, up, m_hitbox_jump, map, level, m_map_cells.value())) {
-                BN_LOG("jumping and collided with ceiling cell");
+                // BN_LOG("jumping and collided with ceiling cell");
                 m_dy = 0;
             }
         }
 
         if (m_dx > 0) { // moving right
-            BN_LOG("delta x greater than 0 so moving right");
+            // BN_LOG("delta x greater than 0 so moving right");
 
             if (hitbox_collided_with_cell(m_pos, right, m_hitbox_right, map, level, m_map_cells.value())) {
-                BN_LOG("moving right and collided with wall cell");
+                // BN_LOG("moving right and collided with wall cell");
                 m_dx = 0;
             }
         } else if (m_dx < 0) { // moving left
-            BN_LOG("delta x less than 0 so moving left");
+            // BN_LOG("delta x less than 0 so moving left");
 
             if (hitbox_collided_with_cell(m_pos, left, m_hitbox_left, map, level, m_map_cells.value())) {
-                BN_LOG("moving left and collided with wall cell");
+                // BN_LOG("moving left and collided with wall cell");
                 m_dx = 0;
             }
         }

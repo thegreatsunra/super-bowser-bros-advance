@@ -98,8 +98,7 @@ namespace sbb
     bool Enemy::t_is_hit(Hitbox attack)
     {
         if (!m_dead) {
-            // fuck check_collisions_bb() is a mess
-            // return check_collisions_bb(attack, _pos.x(), _pos.y(), 8, 8);
+            return check_collisions(attack, m_pos.x(), m_pos.y(), 8, 8);
         } else {
             return false;
         }
@@ -142,8 +141,10 @@ namespace sbb
                 m_level,
                 m_map_cells
             )) {
+            BN_LOG("m_fall_check true");
             return true;
         } else {
+            BN_LOG("m_fall_check false");
             return false;
         }
     }
@@ -154,22 +155,24 @@ namespace sbb
             if (!sbb::hitbox_collided_with_cell(
                     m_pos,
                     directions::down,
-                    Hitbox(-4, 8, 4, 8),
+                    Hitbox(-4, 32, 4, 8),
                     m_map,
                     m_level,
                     m_map_cells
                 )) {
+                BN_LOG("m_will_fall true (left)");
                 return true;
             }
         } else { //right
             if (!sbb::hitbox_collided_with_cell(
                     m_pos,
                     directions::down,
-                    Hitbox(4, 8, 4, 8),
+                    Hitbox(4, 32, 4, 8),
                     m_map,
                     m_level,
                     m_map_cells
                 )) {
+                BN_LOG("m_will_fall true (right)");
                 return true;
             }
         }
@@ -260,7 +263,7 @@ namespace sbb
                 if (sbb::hitbox_collided_with_cell(
                         m_pos,
                         directions::down,
-                        Hitbox(0, 8, 8, 0),
+                        Hitbox(0, 16, 32, 0),
                         m_map,
                         m_level,
                         m_map_cells
@@ -275,19 +278,19 @@ namespace sbb
             }
 
             //bounce?
-            if (bn::abs(m_dx) > 0) {
-                if (sbb::hitbox_collided_with_cell(
-                        m_pos,
-                        directions::left,
-                        Hitbox(0, 0, 4, 8),
-                        m_map,
-                        m_level,
-                        m_map_cells
-                    )) {
-                    m_dx = -m_dx;
-                    // _direction_timer = 0;
-                }
-            }
+            // if (bn::abs(m_dx) > 0) {
+            //     if (sbb::hitbox_collided_with_cell(
+            //             m_pos,
+            //             directions::left,
+            //             Hitbox(0, 0, 4, 8),
+            //             m_map,
+            //             m_level,
+            //             m_map_cells
+            //         )) {
+            //         m_dx = -m_dx;
+            //         // _direction_timer = 0;
+            //     }
+            // }
 
             //max
             if (m_dy > max_dy) {
