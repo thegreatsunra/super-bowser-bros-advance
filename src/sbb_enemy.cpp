@@ -264,7 +264,7 @@ namespace sbb
                 if (sbb::hitbox_collided_with_cell(
                         m_pos,
                         directions::down,
-                        Hitbox(0, 8, 8, 0),
+                        Hitbox(0, 16, 32, 0),
                         m_map,
                         m_level,
                         m_map_cells
