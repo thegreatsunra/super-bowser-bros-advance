@@ -69,6 +69,7 @@ namespace sbb
         for (int i = 0; i < m_enemies.value()->size(); i++) {
             if (m_enemies.value()->at(i).t_is_hit(collide_hitbox)) {
                 if (m_enemies.value()->at(i).t_hp() > 0) {
+                    BN_LOG("You collided with an enemy!");
                     m_dy -= 0.3;
 
                     if (m_dx < 0) {
