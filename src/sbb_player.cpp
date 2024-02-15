@@ -64,7 +64,7 @@ namespace sbb
 
     void Player::t_collide_with_enemies()
     {
-        Hitbox collide_hitbox = Hitbox(m_pos.x(), m_pos.y() + 2, 8, 12);
+        Hitbox collide_hitbox = Hitbox(m_pos.x(), m_pos.y(), 64, 64);
 
         for (int i = 0; i < m_enemies.value()->size(); i++) {
             if (m_enemies.value()->at(i).t_is_hit(collide_hitbox)) {
