@@ -45,7 +45,8 @@ USERLDFLAGS :=
 USERLIBDIRS :=  
 USERLIBS    :=  
 DEFAULTLIBS :=  
-STACKTRACE	:=	
+# Demangle logged stacktraces at https://demangler.com
+STACKTRACE	:=  TRUE
 USERBUILD   :=  
 EXTTOOL     :=  
 
