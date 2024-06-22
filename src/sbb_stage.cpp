@@ -39,7 +39,6 @@ namespace sbb
         enemies.push_back(Enemy(768, 968, camera, map, ENEMY_TYPE::MARIO, 2));
         enemies.push_back(Enemy(832, 968, camera, map, ENEMY_TYPE::MARIO, 2));
         enemies.push_back(Enemy(860, 968, camera, map, ENEMY_TYPE::MARIO, 2));
-
         m_player->t_spawn(camera, enemies, map, spawn_location);
 
         while (true) {

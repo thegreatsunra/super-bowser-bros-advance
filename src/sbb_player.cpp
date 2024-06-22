@@ -120,14 +120,12 @@ namespace sbb
 
         if (m_dx > 0) { // moving right
             // BN_LOG("delta x greater than 0 so moving right");
-
             if (hitbox_collided_with_cell(m_pos, right, m_hitbox_right, map, level, m_map_cells.value())) {
                 // BN_LOG("moving right and collided with wall cell");
                 m_dx = 0;
             }
         } else if (m_dx < 0) { // moving left
             // BN_LOG("delta x less than 0 so moving left");
-
             if (hitbox_collided_with_cell(m_pos, left, m_hitbox_left, map, level, m_map_cells.value())) {
                 // BN_LOG("moving left and collided with wall cell");
                 m_dx = 0;
@@ -163,6 +161,7 @@ namespace sbb
         m_is_running = true;
         m_is_sliding = false;
     }
+
     void Player::t_move_right()
     {
         m_sprite.set_horizontal_flip(false);
@@ -234,7 +233,7 @@ namespace sbb
     void Player::t_update_position(bn::affine_bg_ptr map, sbb::Level level)
     {
         m_update_camera(30 - bn::abs(m_dx.integer()) * 5);
-        m_dx = m_dx * FRICTION;
+        m_dx = m_dx *FRICTION;
         m_dy += GRAVITY;
 
         // take input
