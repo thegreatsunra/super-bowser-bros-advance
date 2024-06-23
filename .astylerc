@@ -82,8 +82,7 @@ indent-namespaces
 #     (Is_Foo((arg), (a)) \
 #      || Is_Foo((arg), (b)))
 # 
-# TODO: invalid project option:
-#indent-preprocessor
+indent-preproc-define
     
 # Indent C++ comments beginning in column one. 
 # For example
