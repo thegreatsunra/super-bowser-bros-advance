@@ -303,5 +303,6 @@ min-conditional-indent=0
 #             barArg2,
 #             barArg3);
 # 
-# TODO: invalid project option:
+# TODO: Invalid project options:
 # max-instatement-indent=9
+# max-continuation-indent=9
