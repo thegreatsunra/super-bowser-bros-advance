@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,c++
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,c++
+# Created by https://www.toptal.com/developers/gitignore/api/c++,linux,macos,windows
+# Edit at https://www.toptal.com/developers/gitignore?templates=c++,linux,macos,windows
 
 ### C++ ###
 # Prerequisites
@@ -109,7 +109,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,c++
+# End of https://www.toptal.com/developers/gitignore/api/c++,linux,macos,windows
 
 ### Butano ###
 # from https://github.com/GValiente/butano/blob/master/.gitignore
