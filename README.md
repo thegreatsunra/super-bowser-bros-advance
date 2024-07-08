@@ -44,3 +44,19 @@ make -j8 # where `8` is the number of CPU cores your build machine has
 ```
 
 2. Run the `.gba` file in your Game Boy Advance emulator
+
+## Linting with Artistic Style
+
+### Installing
+
+```shell
+brew install astyle
+```
+
+### Using
+
+```shell
+cd super-bowser-collision
+# lint with astyle
+astyle --recursive --project -n "*.cpp,*.h"
+```

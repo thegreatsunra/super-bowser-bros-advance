@@ -1,5 +1,39 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,linux,windows
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,windows
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,c++
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,c++
+
+### C++ ###
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
 
 ### Linux ###
 *~
@@ -75,7 +109,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,c++
 
 ### Butano ###
 # from https://github.com/GValiente/butano/blob/master/.gitignore
