@@ -112,9 +112,10 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/c++,linux,macos,windows
 
 ### Butano ###
-# from https://github.com/GValiente/butano/blob/master/.gitignore
+# from https://github.com/GValiente/butano/blob/17.7.0/.gitignore
+# sorted alphabetically
 .qtc_clangd/
-# .vscode/
+# .vscode/ # overriden to include these files
 *.cflags
 *.config
 *.creator
