@@ -1,0 +1,5 @@
+BasedOnStyle: LLVM
+
+ColumnLimit: 120
+TabWidth: 2
+UseTab: ForContinuationAndIndentation

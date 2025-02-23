@@ -2,10 +2,14 @@
 
 ## Notes
 
-Lint with Artistic Style
+Lint with ClangFormat:
 
 ```shell
-astyle --recursive --project -n "*.cpp,*.h"
+# install clang-format
+brew install clang-format
+
+# run from root of project
+find . -name "*.cpp" -o -name "*.h" | xargs clang-format -i -style=file
 ```
 
 ---
