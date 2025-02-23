@@ -233,7 +233,7 @@ namespace sbb
     void Player::t_update_position(bn::affine_bg_ptr map, sbb::Level level)
     {
         m_update_camera(30 - bn::abs(m_dx.integer()) * 5);
-        m_dx = m_dx *FRICTION;
+        m_dx = m_dx * FRICTION;
         m_dy += GRAVITY;
 
         // take input

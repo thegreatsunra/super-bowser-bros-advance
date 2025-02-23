@@ -233,9 +233,9 @@ namespace sbb
                 if (m_type == ENEMY_TYPE::MARIO) {
                     if ((m_action.value().current_index() == 1 || m_action.value().current_index() == 3)  && m_grounded) {
                         if (m_type == ENEMY_TYPE::MARIO) {
-                            m_dx += m_dir *acc;
+                            m_dx += m_dir * acc;
                         } else {
-                            m_dx += m_dir *acc * 1.5;
+                            m_dx += m_dir * acc * 1.5;
                         }
 
                         // 10 (or 20) is a magic number
@@ -250,7 +250,7 @@ namespace sbb
                 }
             }
 
-            m_dx = m_dx *friction;
+            m_dx = m_dx * friction;
 
             if (m_dx > 0) {
                 m_sprite.value().set_horizontal_flip(false);
