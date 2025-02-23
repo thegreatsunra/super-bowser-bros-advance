@@ -32,19 +32,19 @@ Player::Player(bn::sprite_ptr sprite)
 
 void Player::t_apply_animation_state() {
 	if (m_is_jumping) {
-		m_action = bn::create_sprite_animate_action_forever(m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 4,
-																												4, 4, 4);
+		m_action =
+			bn::create_sprite_animate_action_forever(m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
 	} else if (m_is_falling) {
-		m_action = bn::create_sprite_animate_action_forever(m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 3,
-																												3, 3, 3);
+		m_action =
+			bn::create_sprite_animate_action_forever(m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 3, 3, 3, 3);
 	} else if (m_is_sliding) {
-		m_action = bn::create_sprite_animate_action_forever(m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 4,
-																												4, 4, 4);
+		m_action =
+			bn::create_sprite_animate_action_forever(m_sprite, 30, bn::sprite_items::bowser_sprite.tiles_item(), 4, 4, 4, 4);
 	} else if (m_is_running) {
 		// checks if animation state is already "running" and if so, avoids "thrashing" the m_action value
 		if (m_action.graphics_indexes().front() != 1) {
-			m_action = bn::create_sprite_animate_action_forever(m_sprite, 3, bn::sprite_items::bowser_sprite.tiles_item(), 1,
-																													0, 2, 0);
+			m_action =
+				bn::create_sprite_animate_action_forever(m_sprite, 3, bn::sprite_items::bowser_sprite.tiles_item(), 1, 0, 2, 0);
 		}
 	} else {
 		// checks if animation state is already "standing" and if so, avoids "thrashing" the m_action value

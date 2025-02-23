@@ -1,5 +1,7 @@
 BasedOnStyle: LLVM
 
+# customizations added by Dane based on personal preference
 ColumnLimit: 120
+ContinuationIndentWidth: 2
 TabWidth: 2
 UseTab: ForContinuationAndIndentation
